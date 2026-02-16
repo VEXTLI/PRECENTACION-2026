@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vextli - Presentación Corporativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-color: #00A896;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #f8fafc;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+        }
+        .text-brand { color: var(--brand-color) !important; }
+        .bg-brand { background-color: var(--brand-color) !important; }
+        .border-brand { border-color: var(--brand-color) !important; }
+        
+        .card-shadow {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-shadow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 168, 150, 0.2);
+        }
+
+        /* Animación NFC Interactiva */
+        .nfc-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #f1f5f9;
+            border-radius: 2rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .phone {
+            width: 120px;
+            height: 240px;
+            background: #1e293b;
+            border-radius: 20px;
+            position: absolute;
+            bottom: -50px;
+            right: 10%;
+            border: 4px solid #475569;
+            z-index: 10;
+            animation: phoneMove 6s infinite ease-in-out;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .phone-screen {
+            flex: 1;
+            background: #0f172a;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: screenWake 6s infinite ease-in-out;
+        }
+
+        .vextli-keychain {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 12px;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+            position: relative;
+        }
+
+        .nfc-wave {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--brand-color);
+            border-radius: 50%;
+            opacity: 0;
+            animation: waveRipple 6s infinite;
+        }
+
+        @keyframes phoneMove {
+            0%, 10% { transform: translateY(0) rotate(0); }
+            30%, 50% { transform: translateY(-120px) translateX(-60px) rotate(-15deg); }
+            80%, 100% { transform: translateY(300px); }
+        }
+
+        @keyframes screenWake {
+            0%, 35% { opacity: 0; }
+            45%, 85% { opacity: 1; }
+            95%, 100% { opacity: 0; }
+        }
+
+        @keyframes waveRipple {
+            35% { transform: scale(1); opacity: 1; }
+            55% { transform: scale(4); opacity: 0; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Configuración crítica para exportación a PDF */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            .no-print { display: none !important; }
+            .page-break { 
+                page-break-before: always !important; 
+                break-before: page !important;
+            }
+            body { background-color: white !important; }
+            .hero-gradient { 
+                background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important; 
+                color: white !important; 
+            }
+            section { border: none !important; }
+            .bg-slate-900 { background-color: #0f172a !important; color: white !important; }
+            .bg-slate-50 { background-color: #f8fafc !important; }
+            .bg-slate-100 { background-color: #f1f5f9 !important; }
+            .bg-brand { background-color: #00A896 !important; }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Diapositiva 1: Portada -->
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 no-print">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <!-- 
+                ============================================================
+                AQUÍ VA TU LOGO CON TEXTO (IMAGEN) 
+                ============================================================
+                -->
+                <img src="logo5-vextli.png" alt="Logo Vextli" class="h-10 w-auto" onerror="this.style.display='none'">
+                <div class="text-2xl font-800 tracking-tighter text-slate-900"><span class="text-brand"></span></div>
+            </div>
+            <button onclick="window.print()" class="bg-slate-900 text-white px-4 py-2 rounded-lg font-semibold hover:bg-slate-700 transition">
+                Descargar PDF
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero-gradient text-white py-32 px-6 text-center page-break flex flex-col justify-center min-h-[60vh]">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-6xl md:text-8xl font-800 mb-6 tracking-tight">VEXTLI</h1>
+            <h2 class="text-2xl md:text-4xl font-300 mb-10 text-slate-300">Tu marca, en cada bolsillo.</h2>
+            <p class="text-xl text-slate-400 mb-12 italic">Llaveros personalizados con impresión 3D de alta precisión.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <span class="bg-white/10 px-4 py-2 rounded-full text-sm border border-white/20">Presentación Corporativa 2026</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Diapositiva 2: El Problema -->
+    <section class="py-24 px-6 max-w-7xl mx-auto page-break">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-800 mb-4">¿Por qué el merchandising tradicional falla?</h2>
+            <div class="w-24 h-1 bg-red-500 mx-auto"></div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-12">
+            <div class="text-center">
+                <div class="text-4xl mb-4">🚫</div>
+                <h3 class="text-xl font-700 mb-2">Falta de Identidad</h3>
+                <p class="text-slate-600">Los llaveros de catálogo son genéricos. Tu marca merece un diseño único, no un molde compartido.</p>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl mb-4">💰</div>
+                <h3 class="text-xl font-700 mb-2 text-brand font-800">Costos de Entrada Altos</h3>
+                <p class="text-slate-600">Las empresas tradicionales exigen miles de unidades para darte un precio justo.</p>
+            </div>
+            <div class="text-center">
+                <div class="text-4xl mb-4">📐</div>
+                <h3 class="text-xl font-700 mb-2">Diseños Limitados</h3>
+                <p class="text-slate-600">Los moldes convencionales no permiten detalles complejos ni cambios rápidos de diseño.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diapositiva 3: La Solución con Animación -->
+    <section class="py-24 px-6 bg-slate-50 page-break">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="md:w-1/2">
+                    <h2 class="text-4xl font-800 mb-6">Innovación a medida: El efecto <span class="text-brand">Vextli</span>.</h2>
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                        Transformamos tu logotipo en un objeto tangible mediante <strong>impresión 3D de última generación</strong>. 
+                        No adaptamos tu logo a un llavero; creamos el llavero alrededor de tu identidad.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-white font-bold">✓</div>
+                            <span class="font-600">Personalización total y geométrica.</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 h-8 rounded-full bg-brand flex items-center justify-center text-white font-bold">✓</div>
+                            <span class="font-600">Interacción inteligente mediante NFC.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <!-- Animación Interactiva -->
+                    <div class="nfc-container shadow-2xl">
+                        <div class="vextli-keychain" style="animation: pulse 2s infinite ease-in-out;">
+                            VEXTLI
+                            <div class="nfc-wave"></div>
+                            <div class="nfc-wave" style="animation-delay: 0.2s;"></div>
+                        </div>
+                        <div class="phone">
+                            <div class="phone-screen">
+                                <div class="w-8 h-8 bg-brand rounded-full mb-2 flex items-center justify-center text-[8px] font-bold text-white">V</div>
+                                <div class="w-16 h-2 bg-slate-700 rounded-full mb-1"></div>
+                                <div class="w-12 h-2 bg-slate-800 rounded-full"></div>
+                                <div class="mt-4 text-[10px] text-brand font-bold">CONECTADO</div>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-slate-400 text-xs font-bold uppercase tracking-widest">Demo de Interacción</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diapositiva 4: Diferenciadores -->
+    <section class="py-24 px-6 max-w-7xl mx-auto page-break text-center">
+        <h2 class="text-4xl font-800 mb-16 italic">¿Por qué somos mejores?</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="p-8 bg-white rounded-3xl border-b-4 border-brand shadow-sm card-shadow">
+                <h3 class="text-xl font-700 mb-4">Sin mínimos prohibitivos</h3>
+                <p class="text-slate-600 italic">Fabricamos desde pequeñas cantidades hasta grandes lotes corporativos.</p>
+            </div>
+            <div class="p-8 bg-white rounded-3xl border-b-4 border-brand shadow-sm card-shadow">
+                <h3 class="text-xl font-700 mb-4">Precisión Geométrica</h3>
+                <p class="text-slate-600 italic">Logramos formas y texturas que el metal o plástico inyectado no pueden replicar.</p>
+            </div>
+            <div class="p-8 bg-white rounded-3xl border-b-4 border-brand shadow-sm card-shadow">
+                <h3 class="text-xl font-700 mb-4 text-brand">Peso y Resistencia</h3>
+                <p class="text-slate-600 italic">Ligeros para el uso diario, pero extremadamente resistentes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diapositiva 5: Sustentabilidad -->
+    <section class="py-24 px-6 bg-slate-100 page-break">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-800 text-slate-900 mb-6 underline decoration-brand decoration-4">Compromiso con el Futuro</h2>
+            <p class="text-xl text-slate-700 mb-12">Utilizamos exclusivamente <strong>Filamento PLA</strong> (Ácido Poliláctico).</p>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-brand">
+                    <div class="text-3xl mb-2">🌽</div>
+                    <p class="font-600 text-slate-800">Origen Orgánico</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-brand">
+                    <div class="text-3xl mb-2">♻️</div>
+                    <p class="font-600 text-slate-800">Biodegradable</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-brand">
+                    <div class="text-3xl mb-2">🍃</div>
+                    <p class="font-600 text-slate-800">No Tóxico</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diapositiva 6: NFC -->
+    <section class="py-24 px-6 bg-slate-900 text-white page-break">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2">
+                <div class="inline-block px-3 py-1 rounded-full bg-brand/20 text-brand text-sm font-semibold mb-6 uppercase tracking-wider">Tecnología Interactiva</div>
+                <h2 class="text-4xl font-800 mb-6">Llaveros Inteligentes (NFC)</h2>
+                <p class="text-slate-400 text-lg mb-8 leading-relaxed">
+                    Integramos un chip NFC oculto que convierte tu merchandising en una herramienta de marketing digital. 
+                    <strong>Sin baterías, sin fricción, solo basta acercar.</strong>
+                </p>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="border-l-2 border-brand pl-4">
+                        <div class="font-bold text-white">Web Directa</div>
+                        <p class="text-sm text-slate-500">Lleva clientes a tu sitio.</p>
+                    </div>
+                    <div class="border-l-2 border-brand pl-4">
+                        <div class="font-bold text-white">VCard</div>
+                        <p class="text-sm text-slate-500">Contacto guardado al instante.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="w-64 h-64 bg-slate-800 rounded-3xl border-2 border-brand flex items-center justify-center nfc-glow">
+                    <div class="text-center">
+                        <div class="text-4xl mb-2 italic text-brand">📡</div>
+                        <div class="font-bold text-brand tracking-widest uppercase">NFC CHIP</div>
+                        <div class="text-[10px] text-slate-500 mt-2">TECNOLOGÍA VEXTLI</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diapositiva 7: Proceso con Imágenes -->
+    <section class="py-24 px-6 max-w-7xl mx-auto page-break">
+        <h2 class="text-4xl font-800 text-center mb-16">De tu idea a tus manos en 3 pasos</h2>
+        <div class="grid md:grid-cols-3 gap-12 relative">
+            <div class="text-center">
+                <div class="w-12 h-12 rounded-full mx-auto flex items-center justify-center text-white font-800 text-xl mb-6 bg-brand">1</div>
+                <h3 class="text-xl font-700 mb-4">Diseño Digital</h3>
+                <p class="text-slate-600 text-sm mb-6">Convertimos tu logotipo en un modelo 3D optimizado para impresión.</p>
+                <!-- 
+                ============================================================
+                IMAGEN PASO 1: DISEÑO DIGITAL (MODELADO 3D)
+                ============================================================
+                -->
+                <div class="rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                    <img src="Paso1.png" alt="Paso 1: Diseño Digital" class="w-full h-48 object-cover bg-slate-100">
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 rounded-full mx-auto flex items-center justify-center text-white font-800 text-xl mb-6 bg-brand">2</div>
+                <h3 class="text-xl font-700 mb-4">Prueba de Calidad</h3>
+                <p class="text-slate-600 text-sm mb-6">Validamos colores, dimensiones y el funcionamiento del chip NFC.</p>
+                <!-- 
+                ============================================================
+                IMAGEN PASO 2: PRUEBA DE CALIDAD (FOTO DE PRUEBA)
+                ============================================================
+                -->
+                <div class="rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                    <img src="Paso2.png" alt="Paso 2: Prueba de Calidad" class="w-full h-48 object-cover bg-slate-100">
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="w-12 h-12 rounded-full mx-auto flex items-center justify-center text-white font-800 text-xl mb-6 bg-brand">3</div>
+                <h3 class="text-xl font-700 mb-4">Producción</h3>
+                <p class="text-slate-600 text-sm mb-6">Fabricación en serie con control individual y entrega garantizada.</p>
+                <!-- 
+                ============================================================
+                IMAGEN PASO 3: PRODUCCIÓN (LOTE FINAL)
+                ============================================================
+                -->
+                <div class="rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+                    <img src="Paso3.png" alt="Paso 3: Producción Final" class="w-full h-48 object-cover bg-slate-100">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diapositiva 8: Cierre y Contacto -->
+    <section class="py-24 px-6 bg-slate-50 page-break">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center bg-slate-900 text-white p-16 rounded-[3rem]">
+                <h2 class="text-4xl font-800 mb-4 text-brand italic underline decoration-brand">VEXTLI</h2>
+                <h3 class="text-3xl font-800 mb-12">¿Listo para elevar tu marca?</h3>
+                <div class="grid md:grid-cols-3 gap-8 text-slate-300 font-600">
+                    <div class="p-6 border border-slate-800 rounded-2xl">
+                        <div class="text-2xl mb-2 text-brand">📞</div>
+                        <p>WhatsApp</p>
+                        <p class="text-sm font-normal text-slate-500">4426597342</p>
+                    </div>
+                    <div class="p-6 border border-slate-800 rounded-2xl">
+                        <div class="text-2xl mb-2 text-brand">📧</div>
+                        <p>Email</p>
+                        <p class="text-sm font-normal text-slate-500">llaverossilex@gmail.com</p>
+                    </div>
+                    <div class="p-6 border border-slate-800 rounded-2xl">
+                        <div class="text-2xl mb-2 text-brand">📸</div>
+                        <p>Instagram</p>
+                        <p class="text-sm font-normal text-slate-500">@vextli_nfc</p>
+                    </div>
+                </div>
+                <p class="mt-16 text-xs text-slate-500 uppercase tracking-widest">Tecnología de Manufactura Aditiva &copy; 2026</p>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
