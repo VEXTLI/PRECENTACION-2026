@@ -9,11 +9,13 @@
     <style>
         :root {
             --brand-color: #00A896;
+            --slate-900: #0f172a;
         }
         body {
             font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
             background-color: #f8fafc;
+            overflow-x: hidden;
         }
         .hero-gradient {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
@@ -30,128 +32,245 @@
             box-shadow: 0 10px 25px -5px rgba(0, 168, 150, 0.2);
         }
 
-        /* --- Animación NFC Interactiva (Escritorio) --- */
-        .nfc-container {
-            position: relative;
+        /* --- NUEVA ANIMACIÓN CINEMATOGRÁFICA 3D --- */
+        .cine-stage {
             width: 100%;
-            height: 400px;
-            background: #f1f5f9;
-            border-radius: 2rem;
-            overflow: hidden;
+            height: 500px;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            perspective: 1200px; /* Profundidad de la cámara */
+            overflow: hidden;
+            background: radial-gradient(circle at center, #f1f5f9 0%, #cbd5e1 100%);
+            border-radius: 2rem;
             border: 1px solid #e2e8f0;
         }
 
-        .phone {
-            width: 120px;
-            height: 240px;
-            background: #1e293b;
-            border-radius: 20px;
+        .cine-world {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            transform-style: preserve-3d;
+            animation: cameraDirector 8s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* El Suelo/Mesa - CORREGIDO */
+        .cine-floor {
             position: absolute;
-            bottom: -50px;
-            right: 15%; /* Ajustado para escritorio */
-            border: 4px solid #475569;
-            z-index: 10;
-            animation: phoneMoveDesktop 6s infinite ease-in-out;
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
+            width: 140%; /* Más grande para evitar cortes */
+            height: 140%;
+            left: -20%;
+            top: -20%;
+            /* Gradiente suave en lugar de bloque sólido */
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            /* CORRECCIÓN: Plano en el eje Z (detrás del chip), sin rotación X extraña */
+            transform: translateZ(-60px); 
+            opacity: 0.8;
+            pointer-events: none;
         }
 
-        .phone-screen {
-            flex: 1;
-            background: #0f172a;
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            animation: screenWake 6s infinite ease-in-out;
-        }
-
-        .vextli-keychain {
-            width: 80px;
-            height: 80px;
+        /* El Llavero (Chip) */
+        .cine-chip {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 4px solid var(--brand-color);
+            border-radius: 20px;
+            transform: translate(-50%, -50%) rotateX(0deg); /* Pegado al suelo relativo */
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 12px;
             color: var(--brand-color);
-            border: 2px solid var(--brand-color);
-            position: relative;
-            z-index: 5;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            z-index: 2; /* Encima del suelo */
         }
 
-        .nfc-wave {
+        /* Ondas NFC */
+        .cine-wave {
             position: absolute;
-            width: 20px;
-            height: 20px;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
             border: 2px solid var(--brand-color);
-            border-radius: 50%;
+            border-radius: 20px;
+            transform: translate(-50%, -50%);
             opacity: 0;
-            animation: waveRipple 6s infinite;
+            z-index: 1;
+            animation: rippleEffect 8s infinite;
         }
 
-        /* Animaciones Base */
-        @keyframes screenWake {
-            0%, 35% { opacity: 0; }
-            45%, 85% { opacity: 1; }
-            95%, 100% { opacity: 0; }
+        /* El Teléfono 3D */
+        .cine-phone-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 140px;
+            height: 280px;
+            transform-style: preserve-3d;
+            /* La animación de movimiento del teléfono */
+            animation: phoneAction 8s infinite cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10; /* Siempre encima */
         }
 
-        @keyframes waveRipple {
-            35% { transform: scale(1); opacity: 1; }
-            55% { transform: scale(4); opacity: 0; }
+        .cine-phone-body {
+            width: 100%;
+            height: 100%;
+            background: #1e293b;
+            border-radius: 24px;
+            border: 6px solid #334155;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .cine-screen {
+            width: 90%;
+            height: 94%;
+            background: #0f172a;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+            position: relative;
         }
 
-        /* Movimiento Escritorio */
-        @keyframes phoneMoveDesktop {
-            0%, 10% { transform: translateY(0) rotate(0); }
-            30%, 50% { transform: translateY(-120px) translateX(-80px) rotate(-15deg); }
-            80%, 100% { transform: translateY(300px); }
+        /* Contenido de la Pantalla */
+        .screen-content-idle {
+            opacity: 1;
+            transition: opacity 0.3s;
+            text-align: center;
+        }
+        .screen-content-success {
+            position: absolute;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
         }
 
-        /* --- RESPONSIVE / MÓVIL --- */
+        /* KEYFRAMES DE LA HISTORIA */
+
+        /* 1. La Cámara (Perspectiva) */
+        @keyframes cameraDirector {
+            0% { 
+                /* Vista Aérea */
+                transform: rotateX(0deg) rotateZ(0deg) translateY(0); 
+            }
+            15% { 
+                /* Mantiene Aérea un poco */
+                transform: rotateX(0deg) rotateZ(0deg) translateY(0); 
+            }
+            30% { 
+                /* Baja a Vista Lateral (Mesa) */
+                transform: rotateX(75deg) rotateZ(10deg) translateY(50px); 
+            }
+            50% { 
+                /* Mantiene Vista Lateral mientras conecta */
+                transform: rotateX(75deg) rotateZ(10deg) translateY(50px); 
+            }
+            70% { 
+                /* Sube de nuevo a Vista Aérea */
+                transform: rotateX(0deg) rotateZ(0deg) translateY(0); 
+            }
+            100% { 
+                /* Final */
+                transform: rotateX(0deg) rotateZ(0deg) translateY(0); 
+            }
+        }
+
+        /* 2. El Teléfono (Movimiento físico) */
+        @keyframes phoneAction {
+            0% {
+                /* Arriba y lejos */
+                transform: translate(-50%, -50%) translateZ(250px) rotateY(0deg);
+            }
+            15% {
+                transform: translate(-50%, -50%) translateZ(250px) rotateY(0deg);
+            }
+            35% {
+                /* Baja hacia el chip */
+                /* Ajustado translateZ a 40px para asegurar que no toque el suelo (-60px) */
+                transform: translate(-50%, -50%) translateZ(40px) rotateX(-10deg);
+            }
+            45% {
+                /* Toque/Hover muy cerca */
+                transform: translate(-50%, -50%) translateZ(30px) rotateX(0deg);
+            }
+            70% {
+                /* Sube de regreso para mostrar resultado */
+                transform: translate(-50%, -50%) translateZ(200px) rotateY(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) translateZ(250px) rotateY(0deg);
+            }
+        }
+
+        /* 3. El Efecto de Onda (NFC) */
+        @keyframes rippleEffect {
+            0%, 40% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+            45% { opacity: 1; transform: translate(-50%, -50%) scale(1); border-color: var(--brand-color); }
+            60% { opacity: 0; transform: translate(-50%, -50%) scale(2.5); border-color: var(--brand-color); }
+            100% { opacity: 0; }
+        }
+
+        /* 4. Cambio de Pantalla (JS logic simulada con CSS delays) */
+        .cine-screen {
+            animation: screenColorChange 8s infinite;
+        }
+        
+        @keyframes screenColorChange {
+            0%, 65% { background-color: #0f172a; } /* Oscuro */
+            70%, 95% { background-color: #00A896; } /* Verde Marca (Éxito) */
+            100% { background-color: #0f172a; }
+        }
+
+        .screen-content-idle {
+            animation: hideIdle 8s infinite;
+        }
+        @keyframes hideIdle {
+            0%, 65% { opacity: 1; }
+            68%, 100% { opacity: 0; }
+        }
+
+        .screen-content-success {
+            animation: showSuccess 8s infinite;
+        }
+        @keyframes showSuccess {
+            0%, 65% { opacity: 0; transform: scale(0.5); }
+            70%, 90% { opacity: 1; transform: scale(1); }
+            95%, 100% { opacity: 0; transform: scale(0.5); }
+        }
+
+
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .nfc-container {
-                height: 300px; /* Contenedor más bajo en móvil */
-            }
-            .phone {
-                width: 90px;  /* Teléfono más pequeño */
-                height: 180px;
-                right: 50%;   /* Centrado horizontalmente */
-                margin-right: -45px; /* Compensar mitad del ancho para centrar */
-                bottom: -40px;
-                animation: phoneMoveMobile 6s infinite ease-in-out; /* Animación específica móvil */
-            }
-            .vextli-keychain {
-                width: 70px;
-                height: 70px;
-                font-size: 10px;
-            }
-            /* Movimiento Vertical Puro para Móvil (para que no se salga de lado) */
-            @keyframes phoneMoveMobile {
-                0%, 10% { transform: translateY(0) rotate(0); }
-                30%, 50% { transform: translateY(-90px) rotate(0deg); } /* Sube recto */
-                80%, 100% { transform: translateY(250px); }
-            }
-            
-            /* Ajustes de texto para que no se corten */
             h1 { font-size: 3rem !important; line-height: 1.1; }
             h2 { font-size: 2rem !important; }
+            .cine-stage { height: 400px; perspective: 800px; }
+            .cine-world { width: 200px; height: 200px; }
+            .cine-phone-wrapper { width: 100px; height: 200px; }
+            .cine-chip { width: 70px; height: 70px; }
+            .cine-floor { transform: translateZ(-50px); }
+            
+            /* Ajuste de animación para móvil */
+            @keyframes phoneAction {
+                0% { transform: translate(-50%, -50%) translateZ(180px); }
+                35% { transform: translate(-50%, -50%) translateZ(40px); }
+                70% { transform: translate(-50%, -50%) translateZ(150px); }
+                100% { transform: translate(-50%, -50%) translateZ(180px); }
+            }
         }
 
         @media print {
@@ -165,7 +284,7 @@
 </head>
 <body class="text-slate-800">
 
-    <!-- Diapositiva 1: Portada con Logo -->
+    <!-- Navbar -->
     <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 no-print">
         <div class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3 md:gap-4">
@@ -180,6 +299,7 @@
         </div>
     </nav>
 
+    <!-- Header / Hero -->
     <header class="hero-gradient text-white py-20 md:py-32 px-6 text-center page-break flex flex-col justify-center min-h-[50vh] md:min-h-[60vh]">
         <div class="max-w-4xl mx-auto">
             <h1 class="text-4xl md:text-6xl lg:text-8xl font-800 mb-6 tracking-tight uppercase">VEXTLI</h1>
@@ -191,17 +311,76 @@
         </div>
     </header>
 
-    <!-- Sección de Solución -->
+    <!-- NUEVA SECCIÓN: DEMOSTRACIÓN ANIMADA CINEMATOGRÁFICA -->
+    <section class="py-16 md:py-24 px-6 bg-white page-break border-b border-slate-200">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-800 text-slate-900 uppercase tracking-tighter mb-4">Experiencia de Usuario</h2>
+                <p class="text-slate-500 max-w-2xl mx-auto">Acerca, Conecta, Interactúa. Sin aplicaciones, sin fricción.</p>
+            </div>
+
+            <!-- Escenario 3D -->
+            <div class="cine-stage shadow-2xl">
+                <div class="cine-world">
+                    <!-- Suelo / Referencia -->
+                    <div class="cine-floor"></div>
+
+                    <!-- El Llavero / Chip -->
+                    <div class="cine-chip">
+                        VEXTLI
+                    </div>
+                    <!-- Ondas de energía -->
+                    <div class="cine-wave" style="animation-delay: 0s;"></div>
+                    <div class="cine-wave" style="animation-delay: 0.2s;"></div>
+
+                    <!-- El Teléfono Móvil -->
+                    <div class="cine-phone-wrapper">
+                        <div class="cine-phone-body">
+                            <!-- Cámara frontal -->
+                            <div class="w-16 h-4 bg-slate-800 rounded-full absolute top-2 z-20"></div>
+                            
+                            <!-- Pantalla -->
+                            <div class="cine-screen">
+                                <!-- Estado 1: Buscando -->
+                                <div class="screen-content-idle w-full flex flex-col items-center">
+                                    <div class="text-white text-4xl mb-2 animate-pulse">📡</div>
+                                    <p class="text-slate-400 text-[10px] uppercase tracking-widest font-bold">Buscando NFC</p>
+                                </div>
+
+                                <!-- Estado 2: Éxito -->
+                                <div class="screen-content-success w-full flex flex-col items-center">
+                                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-brand text-2xl mb-2 shadow-lg">✓</div>
+                                    <p class="text-white text-xs uppercase tracking-widest font-800">VINCULADO</p>
+                                    <div class="mt-2 px-3 py-1 bg-white/20 rounded-md">
+                                        <p class="text-[8px] text-white">Abriendo enlace...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-center gap-8 text-xs text-slate-400 uppercase tracking-widest font-bold text-center">
+                <div>1. Acercamiento</div>
+                <div>2. Lectura Automática</div>
+                <div>3. Despliegue Digital</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Solución (Texto Original) -->
     <section class="py-16 md:py-24 px-6 bg-slate-50 page-break border-b border-slate-200">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
-                <div class="md:w-1/2">
+                <div class="w-full"> <!-- Cambiado a full width ya que movimos la animación arriba -->
                     <h2 class="text-3xl md:text-4xl font-800 mb-6 text-slate-900 text-center md:text-left">Innovación a medida: El efecto <span class="text-brand uppercase">Vextli</span>.</h2>
                     <p class="text-base md:text-lg text-slate-600 mb-8 leading-relaxed text-center md:text-left">
                         Desarrollamos merchandising funcional mediante <strong>impresión 3D de alta definición</strong>. 
                         No nos limitamos a estampar un logo; integramos su identidad en la estructura misma del objeto, garantizando durabilidad y un diseño exclusivo imposible de replicar con métodos tradicionales.
                     </p>
-                    <div class="space-y-5">
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
                         <div class="flex items-start gap-4">
                             <div class="mt-1 w-5 h-5 rounded-full bg-brand flex items-center justify-center text-white text-[10px] font-bold shrink-0">✓</div>
                             <div>
@@ -216,25 +395,6 @@
                                 <p class="text-sm text-slate-500">Integración invisible de microchips NFC para interacción digital.</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="w-full md:w-1/2">
-                    <!-- Animación Ajustada -->
-                    <div class="nfc-container shadow-xl">
-                        <div class="vextli-keychain" style="animation: pulse 2s infinite ease-in-out;">
-                            VEXTLI
-                            <div class="nfc-wave"></div>
-                            <div class="nfc-wave" style="animation-delay: 0.2s;"></div>
-                        </div>
-                        <div class="phone">
-                            <div class="phone-screen">
-                                <div class="w-6 h-6 md:w-8 md:h-8 bg-brand rounded-full mb-2 flex items-center justify-center text-[8px] font-bold text-white">V</div>
-                                <div class="w-12 h-1.5 md:w-16 md:h-2 bg-slate-700 rounded-full mb-1"></div>
-                                <div class="w-8 h-1.5 md:w-12 md:h-2 bg-slate-800 rounded-full"></div>
-                                <div class="mt-2 md:mt-4 text-[8px] md:text-[10px] text-brand font-bold uppercase tracking-widest">Vinculado</div>
-                            </div>
-                        </div>
-                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] w-full text-center">Demostración de enlace</div>
                     </div>
                 </div>
             </div>
@@ -424,4 +584,3 @@
 
 </body>
 </html>
-
